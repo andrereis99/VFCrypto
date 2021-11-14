@@ -1,0 +1,103 @@
+@import '../../styles/variables';
+
+.CryptoCard {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px 35px;
+    height: 125px;
+    box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    cursor: pointer;
+
+    &:hover {
+        transform: scale(1.01);
+    }
+
+    img {
+        height: 50px;
+        width: 50px;
+    }
+
+    .Crypto_Info {
+        display: flex;
+        align-items: center;
+
+        span {
+            color: $lightPrimary;
+        }
+
+        .Change24Indicator {
+            height: 25px;
+            width: 19px;
+            scale: 0.7;
+
+            &.Rotate {
+                transform: rotate(180deg);
+            }
+
+            @media screen and (max-width: 768px) {
+                height: 15px;
+            }
+
+            @media screen and (max-width: 480px) {
+                width: 10px;
+            }
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+        padding: 10px 20px;
+    }
+}
+
+.Crypto_Row {
+    display: flex;
+    width: 100%;
+
+    .Crypto_Info_Column {
+        align-items: center;
+        width: 25%;
+        color: $primaryColor;
+
+        .Crypto_Info_Title {
+            font-weight: bold;
+            color: #777;
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+        flex-wrap: wrap;
+
+        :nth-child(3n) {
+            padding-left: 60px;
+        }
+
+        .Crypto_Info_Column:nth-child(2n-1) {
+            min-width: 60%;
+        }
+        .Crypto_Info_Column:nth-child(2n) {
+            min-width: 40%;
+        }
+    }
+
+    @media screen and (max-width: 480px) {
+        .Crypto_Info_Column:nth-child(2n-1) {
+            min-width: 65%;
+        }
+        .Crypto_Info_Column:nth-child(2n) {
+            display: flex;
+            flex-direction: column;
+            align-items: end;
+            min-width: 35%;
+        }
+    }
+}
+
+.Crypto_Header {
+    margin-left: 10px;
+
+    .Crypto_Short {
+        color: #777;
+    }
+}

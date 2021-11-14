@@ -1,0 +1,104 @@
+@import "../../styles/variables";
+
+.HeaderContainer {
+	z-index: 10;
+	background: $primaryColor;
+	box-shadow: 2px 3px 8px #dedcde;
+	padding: 0px 25px;
+
+	@media screen and (max-width: 768px){
+		padding: 0px 10px;
+	}
+}
+
+.Header {
+	width: 100%;
+	display: flex;
+    justify-content: space-between;
+    align-items: center;
+	height: 62px;
+	min-height: 62px;
+	position: relative;
+}
+
+.HeaderSection {
+	display: flex;
+	align-items: center;
+	height: 100%;
+
+	.PageTitle {
+		color: #777777;
+		font-size: $xl;
+		opacity: 1;
+	}
+
+	.HeaderLogo {
+		display: flex;
+		align-items: center;
+		height: 90%;
+		width: 100%;
+		padding: 10px;
+		max-width: 200px;
+		cursor: pointer;
+		text-decoration: none;
+		color: $secondaryColor;
+		font-size: $xl;
+
+		@media screen and (max-width: 768px){
+			height: 75%;
+		}
+
+		img {
+			height: 100%;
+			object-fit: contain;
+			margin-right: 10px;
+		}
+	}
+}
+
+.ant-dropdown-menu-item {
+	img {
+		width: 30px;
+		min-width: 30px;
+		height: 30px;
+		min-height: 30px;
+		border-radius: 50%;
+		cursor: pointer;
+		object-fit: cover;
+		object-position: center;
+		margin-right: 10px;
+	}
+}
+
+.MenuContainer {
+	cursor: pointer;
+	width: 50px;
+	text-align: center;
+
+	h1{
+		margin-bottom: 0px;
+		color: $secondaryColor;
+	}
+}
+
+.ant-dropdown-menu {
+	background-color: $primaryColor !important;
+
+	.ant-dropdown-menu-item  {
+		color: $secondaryColor !important;
+
+		span {
+			text-align: center;
+		}
+
+		&:hover {
+			color: $primaryColor !important;
+		}
+	}
+}
+
+.Splitter {
+	height: 30%;
+	background-color: $secondaryColor;
+	width: 1px;
+}
