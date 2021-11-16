@@ -91,7 +91,7 @@ export class Home extends React.Component<any, any> {
 										{cryptoFullName}
 									</div>
 									<div className="Crypto_Short">
-										{cryptoFullName}
+										{crypto.FROMSYMBOL}
 									</div>
 								</div>
 							</div>
