@@ -93,6 +93,7 @@ export class Home extends React.Component<any, any> {
 					<meta name="List" content="Cryptos List" />
 				</Helmet>
 				<div className="ContentContainer">
+					{/* Cryptos list header */}
 					{!isMobile ? <div className="Crypto_Row" style={{ padding: '0 35px' }}>
 						{cryptos ? <>
 							<div className="Crypto_Info_Column" style={{ fontWeight: 'bold' }}>
@@ -109,6 +110,7 @@ export class Home extends React.Component<any, any> {
 							</div>
 						</> : null}
 					</div> : null}
+					{/* Cryptos list */}
 					{cryptos.map((crypto: any) => {
 						if (!crypto.RAW) return <></>;
 						return <div
@@ -116,6 +118,7 @@ export class Home extends React.Component<any, any> {
 							className="CryptoCard"
 							onClick={() => dispatch(push(`/cryptos/${crypto.Name}`, { cryptoFullName: crypto.FullName }))}>
 							<div className="Crypto_Row">
+								{/* Display crypto logo, name and short name */}
 								<div className="Crypto_Info_Column" style={{ display: 'flex' }}>
 									<img alt='' src={`https://www.cryptocompare.com${crypto.ImageUrl}`} />
 									<div className="Crypto_Header">
@@ -127,6 +130,7 @@ export class Home extends React.Component<any, any> {
 										</div>
 									</div>
 								</div>
+								{/* Display crypto price */}
 								<div className="Crypto_Info_Column">
 									{isMobile ? <div className="Crypto_Info_Title">
 										{Strings.cryptos.price}
@@ -137,6 +141,7 @@ export class Home extends React.Component<any, any> {
 										</> : <>-</>}
 									</div>
 								</div>
+								{/* Display crypto marketCap */}
 								<div className="Crypto_Info_Column">
 									{isMobile ? <div className="Crypto_Info_Title">
 										{Strings.cryptos.mktCap}
@@ -147,6 +152,7 @@ export class Home extends React.Component<any, any> {
 										</> : <>-</>}
 									</div>
 								</div>
+								{/* Display crypto one day change */}
 								<div className="Crypto_Info_Column">
 									{isMobile ? <div className="Crypto_Info_Title">
 										{Strings.cryptos.oneDayChange}

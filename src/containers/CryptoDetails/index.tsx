@@ -83,6 +83,7 @@ export class Home extends React.Component<any, any> {
 						key={`crypto_card_${cryptoFullName}_header`}
 						className="CryptoContainer">
 						<div className="Crypto_Data">
+							{/* Display crypto logo, name and short name */}
 							<div className="Crypto_Data_Info" style={{ display: 'flex' }}>
 								<img alt='' src={`https://www.cryptocompare.com${crypto.IMAGEURL}`} />
 								<div className="Crypto_Header">
@@ -94,6 +95,7 @@ export class Home extends React.Component<any, any> {
 									</div>
 								</div>
 							</div>
+							{/* Display crypto price */}
 							<div className="Crypto_Data_Info">
 								<div className="Crypto_Info_Title">
 									{Strings.cryptos.price}
@@ -109,6 +111,7 @@ export class Home extends React.Component<any, any> {
 						key={`crypto_card_${cryptoFullName}_info`}
 						className="CryptoContainer">
 						<div className="Crypto_Data">
+							{/* Display crypto marketCap */}
 							<div className="Crypto_Data_Info">
 								<div className="Crypto_Info_Title">
 									{Strings.cryptos.mktCap}
@@ -117,6 +120,7 @@ export class Home extends React.Component<any, any> {
 									{formatPrice(crypto.MKTCAP, currencySymbol)}
 								</div>
 							</div>
+							{/* Display crypto one day change */}
 							<div className="Crypto_Data_Info">
 								<div className="Crypto_Info_Title">
 									{Strings.cryptos.oneDayChange}
@@ -135,6 +139,7 @@ export class Home extends React.Component<any, any> {
 									</div>
 								</div>
 							</div>
+							{/* Display crypto supply */}
 							<div className="Crypto_Data_Info">
 								<div className="Crypto_Info_Title">
 									{Strings.cryptos.supply}
@@ -143,6 +148,7 @@ export class Home extends React.Component<any, any> {
 									{formatPrice(crypto.SUPPLY, params.id, true)}
 								</div>
 							</div>
+							{/* Display crypto circulation supply */}
 							<div className="Crypto_Data_Info">
 								<div className="Crypto_Info_Title">
 									{Strings.cryptos.circulationSupply}
