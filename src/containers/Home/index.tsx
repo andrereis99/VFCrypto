@@ -9,10 +9,9 @@ import axios from "axios";
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { push } from "connected-react-router";
-import { Row, Col, Button } from "antd";
 import { Icon } from "../../components";
 import { setTitle } from "../../store/actions";
-import { CURRENCIES, CRYPTOS } from '../../utils/utils';
+import { formatPrice, CURRENCIES } from '../../utils/utils';
 import Strings from '../../utils/strings';
 
 import './styles.scss';
@@ -23,7 +22,7 @@ export class Home extends React.Component<any, any> {
 
 		this.state = {
 			cryptos: [],
-			isMobile: window.innerWidth < 768,
+			isMobile: window.innerWidth <= 768,
 		};
 		
 		window.addEventListener("resize", this.handleResize);
@@ -34,26 +33,58 @@ export class Home extends React.Component<any, any> {
 
         dispatch(setTitle('VFCrypto'));
 
-		axios.get('https://min-api.cryptocompare.com/data/pricemultifull?fsyms=BTC,ETH,DASH,LTC,ADA,LINK&tsyms=USD,EUR,GBP,JPY').then((response) => {
-			console.log('response', response.data);
+		this.getCryptos();
+		// Call every 60 seconds
+		const intervalId = setInterval(this.getCryptos, 60000);
+		this.setState({ intervalId });
+	}
 
-			this.setState({ cryptos: response.data.RAW });
-		});
+	componentDidUpdate(newProps: any) {
+		const { currency } = this.props;
+
+		// Call endpoint every time that user change currency
+		// This endpoint only allow one currency value at a time
+		if (currency !== newProps.currency) {
+			this.getCryptos();
+		}
 	}
 	
 	componentWillUnmount() {
 		window.removeEventListener("resize", this.handleResize);
+		setInterval(this.state.intervalId);
 	}
 
+	/**
+	 * Verify if divice has a mobile screen on resize it
+	 */
 	handleResize = () => {
 		this.setState({
-			isMobile: window.innerWidth < 768,
+			isMobile: window.innerWidth <= 768,
+		});
+	}
+
+	/**
+	 * Call Top 10 Cryptos endpoint
+	 */
+	getCryptos = () => {
+		axios.get(`https://min-api.cryptocompare.com/data/top/mktcapfull?limit=10&tsym=${this.props.currency}`).then((response) => {
+			const cryptos = response.data.Data.map((elem: any) => ({
+				Id: elem.CoinInfo.Id,
+				Name: elem.CoinInfo.Name,
+				FullName: elem.CoinInfo.FullName,
+				ImageUrl: elem.CoinInfo.ImageUrl,
+				RAW: elem.RAW
+			}));
+
+			this.setState({ cryptos });
 		});
 	}
 
 	render() {
 		const { cryptos, isMobile } = this.state;
-		const { currency } = this.props;
+		const { currency, dispatch } = this.props;
+		
+		const currencySymbol = CURRENCIES.find(elem => elem.value === currency)?.label || '';
 
 		return (
 			<React.Fragment>
@@ -78,63 +109,67 @@ export class Home extends React.Component<any, any> {
 							</div>
 						</> : null}
 					</div> : null}
-					{Object.keys(cryptos).map((cryptoKey: any) => {
-						const crypto = cryptos[cryptoKey][currency]
-						const cryptoName = CRYPTOS.find(elem => elem.value === cryptoKey)?.label
-						const currencySymbol = CURRENCIES.find(elem => elem.value === currency)?.label;
-						return <>
-							<div className="CryptoCard">
-								<div className="Crypto_Row">
-									{cryptos ? <>
-										<div className="Crypto_Info_Column" style={{ display: 'flex' }}>
-											<img alt='' src={`https://www.cryptocompare.com${crypto.IMAGEURL}`} />
-											<div className="Crypto_Header">
-												<div className="Crypto_Name">
-													{cryptoName}
-												</div>
-												<div className="Crypto_Short">
-													{cryptoKey}
-												</div>
-											</div>
+					{cryptos.map((crypto: any) => {
+						if (!crypto.RAW) return <></>;
+						return <div
+							key={`crypto_card_${crypto.Name}`}
+							className="CryptoCard"
+							onClick={() => dispatch(push(`/cryptos/${crypto.Name}`, { cryptoFullName: crypto.FullName }))}>
+							<div className="Crypto_Row">
+								<div className="Crypto_Info_Column" style={{ display: 'flex' }}>
+									<img alt='' src={`https://www.cryptocompare.com${crypto.ImageUrl}`} />
+									<div className="Crypto_Header">
+										<div className="Crypto_Name">
+											{crypto.FullName}
 										</div>
-										<div className="Crypto_Info_Column">
-											{isMobile ? <div className="Crypto_Info_Title">
-												{Strings.cryptos.price}
-											</div> : null}
-											<div className="Crypto_Info">
-												<span>{currencySymbol}</span> {crypto.PRICE.toFixed(2)}
-											</div>
+										<div className="Crypto_Short">
+											{crypto.Name}
 										</div>
-										<div className="Crypto_Info_Column">
-											{isMobile ? <div className="Crypto_Info_Title">
-												{Strings.cryptos.mktCap}
-											</div> : null}
-											<div className="Crypto_Info">
-												<span>{currencySymbol}</span> {crypto.MKTCAP.toFixed(2)}
-											</div>
-										</div>
-										<div className="Crypto_Info_Column">
-											{isMobile ? <div className="Crypto_Info_Title">
-												{Strings.cryptos.oneDayChange}
-											</div> : null}
-											<div
-												className="Crypto_Info"
-												style={crypto.CHANGE24HOUR > 0 ?
-													{ color: 'green' } :
-													{ color: '#b51313' }}
-												>
-													{Math.abs(crypto.CHANGE24HOUR.toFixed(2))}%
-													<div className={crypto.CHANGE24HOUR > 0 ? "Change24Indicator Rotate" : "Change24Indicator"}>
-														<Icon
-															className="rotate"
-															name="baixa" />
-													</div>
-											</div>
-										</div>
-									</> : null}
+									</div>
 								</div>
+								<div className="Crypto_Info_Column">
+									{isMobile ? <div className="Crypto_Info_Title">
+										{Strings.cryptos.price}
+									</div> : null}
+									<div className="Crypto_Info">
+										{crypto.RAW[currency] ? <>
+											{formatPrice(crypto.RAW[currency]?.PRICE, currencySymbol)}
+										</> : <>-</>}
+									</div>
+								</div>
+								<div className="Crypto_Info_Column">
+									{isMobile ? <div className="Crypto_Info_Title">
+										{Strings.cryptos.mktCap}
+									</div> : null}
+									<div className="Crypto_Info">
+										{crypto.RAW[currency] ? <>
+											{formatPrice(crypto.RAW[currency]?.MKTCAP, currencySymbol)}
+										</> : <>-</>}
+									</div>
+								</div>
+								<div className="Crypto_Info_Column">
+									{isMobile ? <div className="Crypto_Info_Title">
+										{Strings.cryptos.oneDayChange}
+									</div> : null}
+									<div
+										className="Crypto_Info"
+										style={crypto.RAW[currency]?.CHANGE24HOUR > 0 ?
+											{ color: 'green' } :
+											{ color: '#b51313' }}
+										>
+										{crypto.RAW[currency] ? <>
+											{crypto.RAW[currency]?.CHANGE24HOUR.toFixed(2)}%
+											<div className={crypto.RAW[currency]?.CHANGE24HOUR > 0 ? "Change24Indicator Rotate" : "Change24Indicator"}>
+												<Icon
+													className="rotate"
+													name="baixa" />
+											</div>
+										</> : <>-</>}
+									</div>
+								</div>
+
 							</div>
-						</>
+						</div>
 					})}
 				</div>
 			</React.Fragment>

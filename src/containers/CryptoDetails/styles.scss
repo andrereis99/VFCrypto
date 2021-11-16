@@ -1,18 +1,11 @@
 @import '../../styles/variables';
 
-.CryptoCard {
+.CryptoContainer {
     display: flex;
     flex-direction: row;
     align-items: center;
     padding: 10px 35px;
     height: 125px;
-    box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 20px;
-    cursor: pointer;
-
-    &:hover {
-        transform: scale(1.01);
-    }
 
     img {
         height: 50px;
@@ -35,10 +28,6 @@
             @media screen and (max-width: 768px) {
                 height: 15px;
             }
-
-            @media screen and (max-width: 480px) {
-                width: 10px;
-            }
         }
     }
 
@@ -47,13 +36,13 @@
     }
 }
 
-.Crypto_Row {
+.Crypto_Data {
     display: flex;
     width: 100%;
 
-    .Crypto_Info_Column {
+    .Crypto_Data_Info {
         align-items: center;
-        width: 25%;
+        min-width: 25%;
         color: $primaryColor;
 
         .Crypto_Info_Title {
@@ -69,23 +58,11 @@
             padding-left: 60px;
         }
 
-        .Crypto_Info_Column:nth-child(2n-1) {
+        .Crypto_Data_Info:nth-child(2n-1) {
             min-width: 60%;
         }
-        .Crypto_Info_Column:nth-child(2n) {
+        .Crypto_Data_Info:nth-child(2n) {
             min-width: 40%;
-        }
-    }
-
-    @media screen and (max-width: 480px) {
-        .Crypto_Info_Column:nth-child(2n-1) {
-            min-width: 65%;
-        }
-        .Crypto_Info_Column:nth-child(2n) {
-            display: flex;
-            flex-direction: column;
-            align-items: end;
-            min-width: 35%;
         }
     }
 }

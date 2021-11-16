@@ -23,7 +23,6 @@ export class Header extends React.Component<any, any> {
 		super(props);
 		this.state = {
 			language: props.language || "pt",
-			currency: props.currency || '€',
 		};
 	}
 
@@ -66,7 +65,6 @@ export class Header extends React.Component<any, any> {
 	 */
     changeCurrency(currency: string) {
 		const { dispatch } = this.props;
-		this.setState({ currency: currency });
 		dispatch(setCurrency(currency));
 	}
 
@@ -86,7 +84,7 @@ export class Header extends React.Component<any, any> {
 						{elem.label}
 					</Menu.Item>
 					{LANGUAGES[index+1] ? <Menu.Item
-						key="separator"
+						key={`languages_separator_${index+1}`}
 						style={{
 							height: 1,
 							backgroundColor: "#1f385a",
@@ -114,7 +112,7 @@ export class Header extends React.Component<any, any> {
 						{elem.label}
 					</Menu.Item>
 					{CURRENCIES[index+1] ? <Menu.Item
-						key="separator"
+						key={`currencies_separator_${index+1}`}
 						style={{
 							height: 1,
 							backgroundColor: "#1f385a",
@@ -136,7 +134,7 @@ export class Header extends React.Component<any, any> {
 						{/* Currency Switcher */}
 						<Dropdown key="currency_Dropdown" overlay={this.renderCurrencyMenu} trigger={["click"]}>
 							<div className="MenuContainer">
-								<h1>{CURRENCIES.find(elem => elem.value === this.state.currency)?.label}</h1>
+								<h1>{CURRENCIES.find(elem => elem.value === this.props.currency)?.label}</h1>
 							</div>
 						</Dropdown>
 						<div className="Splitter" />

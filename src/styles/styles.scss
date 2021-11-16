@@ -25,10 +25,6 @@ body {
 	overflow: hidden;
 }
 
-input {
-  	font-size: $ml !important;
-}
-
 .ContentContainer {
 	min-height: calc(100vh - 62px);
 	padding: 25px;
@@ -39,72 +35,19 @@ input {
 	}
 }
 
-.ant-btn-primary {
-	border-color: $primaryColor !important;
-	background: $primaryColor !important;
-
-	span {
-		display: contents !important;
-	}
-
-	&:hover {
-		transform: scale(1.05);
-	}
-}
-
-.ant-btn-dashed {
-	border-color: $primaryColor !important;
-
-	span {
-		display: contents !important;
-	}
-}
-
-.SingleLabel {
-	position: relative;
-	display: inline-flex;
+.Page_Header {
+	display: flex;
 	align-items: center;
-	height: 40px;
-	color: rgba(0, 0, 0, 0.85);
-	font-size: $ml;
-	font-weight: 700;
-	cursor: default;
+	padding: 10px 20px;
+    height: 60px;
+	background-color: $appBackgroundColor;
 
-    &.SecondaryLabel {
-        color: $secondaryColor;
-		font-size: $m;
-		margin-left: 5px;
+	.Page_Header_BackPath {
+        cursor: pointer;
+        color: $primaryColor;
+
+        em {
+            margin-right: 10px;
+        }
     }
-    
-    &.__marginTop {
-        margin-top: 10px !important;
-    }
-
-	&.__required::before {
-		display: inline-block;
-		margin-right: 4px;
-		color: #ff4d4f;
-		font-size: $ml;
-		font-family: SimSun, sans-serif;
-		line-height: 1;
-		content: '*';
-	}
-}
-
-.ant-select-selector {
-	.ant-select-selection-item {
-		font-size: $ml !important;
-	}
-
-	.ant-select-selection-placeholder {
-		font-size: $ml !important;
-	}
-}
-
-.ant-select-item-option-content {
-	font-size: $ml !important;
-}
-
-.ant-select-arrow {
-	transform: scale(0.7);
 }

@@ -16,9 +16,10 @@ export const translate = (text: any) => {
 	return Object.values(text).filter((val) => !!val)[0] || "";
 };
 
-export const formatPrice = (price: number) => {
-	if (!price) return '0.00€'
-	return `${price.toFixed(2)}€`;
+export const formatPrice = (price: number, currency: string, curAtRight: boolean = false) => {
+	if (!price) return `0.00 ${currency}`
+
+	return `${curAtRight ? '' : `${currency} `}${price.toLocaleString(undefined, { minimumFractionDigits: 2 })}${curAtRight ? ` ${currency}` : ''}`;
 }
 
 export const LANGUAGES = [
@@ -48,34 +49,11 @@ export const CURRENCIES = [
 	{
 		value: 'JPY',
 		label: '¥',
+	},
+	{
+		value: 'KRW',
+		label: '₩',
 	}
-];
-
-export const CRYPTOS = [
-	{
-		value: 'BTC',
-		label: 'Bitcoin',
-	},
-	{
-		value: 'ETH',
-		label: 'Ethereum',
-	},
-	{
-		value: 'DASH',
-		label: 'Dash',
-	},
-	{
-		value: 'LTC',
-		label: 'Litecoin',
-	},
-	{
-		value: 'ADA',
-		label: 'Cardano',
-	},
-	{
-		value: 'LINK',
-		label: 'Chainlink',
-	},
 ];
 
 // Toast

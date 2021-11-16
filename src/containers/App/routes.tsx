@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Route, Redirect, Switch } from "react-router-dom";
 import { setLanguage, setCurrency } from "../../store/actions";
-import { Home } from "../index";
+import { Home, CryptoDetails } from "../index";
 
 export class RoutesContainer extends React.Component<any, any> {
 	
@@ -25,6 +25,7 @@ export class RoutesContainer extends React.Component<any, any> {
 		return (
 			<Switch>
 				<Route exact path="/" component={Home} />
+				<Route exact path="/cryptos/:id" component={CryptoDetails} />
 				<Redirect to="/" />
 			</Switch>
 		);
